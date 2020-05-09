@@ -19,15 +19,14 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
   }
 
   @override
-  Stream<Transition<ConnectivityEvent, ConnectivityState>> transformEvents(Stream<ConnectivityEvent> events, transitionFn) {
-    // TODO: implement transformEvents
-    final defferedEvents = events
-        .debounceTime(const Duration(milliseconds: 500))
-        .distinct()
-        .switchMap(transitionFn);
-    final forwardedEvents = events
-        .asyncExpand(transitionFn);
-    return forwardedEvents.mergeWith([defferedEvents]);
+  Stream<Transition<ConnectivityEvent, ConnectivityState>> transformEvents(
+     Stream<ConnectivityEvent> events,
+  TransitionFunction<ConnectivityEvent, ConnectivityState> transitionFn
+  ) {
+    return super.transformEvents(
+    events.debounceTime(const Duration(milliseconds: 300)),
+    transitionFn,
+  );
   }
 
   // @override

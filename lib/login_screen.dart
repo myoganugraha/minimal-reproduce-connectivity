@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,6 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     // TODO: implement initState
     connectivityBloc = BlocProvider.of<ConnectivityBloc>(context);
+    log(connectivityBloc.subscription.toString());
     super.initState();
   }
 }
