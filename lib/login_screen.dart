@@ -45,7 +45,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     // TODO: implement initState
     connectivityBloc = BlocProvider.of<ConnectivityBloc>(context);
-    log(connectivityBloc.subscription.toString());
     super.initState();
   }
 }

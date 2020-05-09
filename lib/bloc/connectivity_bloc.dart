@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:connectivity/connectivity.dart';
@@ -20,34 +21,30 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
 
   @override
   Stream<Transition<ConnectivityEvent, ConnectivityState>> transformEvents(
-     Stream<ConnectivityEvent> events,
-  TransitionFunction<ConnectivityEvent, ConnectivityState> transitionFn
-  ) {
+      Stream<ConnectivityEvent> events,
+      TransitionFunction<ConnectivityEvent, ConnectivityState> transitionFn) {
     return super.transformEvents(
-    events.debounceTime(const Duration(milliseconds: 300)),
-    transitionFn,
-  );
+      events.debounceTime(const Duration(milliseconds: 300)),
+      transitionFn,
+    );
   }
 
-  // @override
-  // Stream<ConnectivityState> transformEvents(
-  //   Stream<ConnectivityEvent> events,
-  //   Stream<ConnectivityState> Function(ConnectivityEvent event) next,
-  // ) {
-  //   return super.transformEvents(
-  //     events.debounceTime(
-  //       const Duration(milliseconds: 500),
-  //     ),
-  //     next,
-  //   );
+  // Stream<Transition<ConnectivityEvent, ConnectivityState>> transformEvents(Stream<ConnectivityEvent> events, transitionFn) {
+  //   // TODO: implement transformEvents
+  //   final defferedEvents = events
+  //       .debounceTime(const Duration(milliseconds: 500))
+  //       .distinct()
+  //       .switchMap(transitionFn);
+  //   final forwardedEvents = events
+  //       .asyncExpand(transitionFn);
+  //   return forwardedEvents.mergeWith([defferedEvents]);
   // }
-  
 
   @override
   Stream<ConnectivityState> mapEventToState(ConnectivityEvent event) async* {
-    final ConnectivityState currentState = state;
+    log(state.toString());
 
-    if (currentState is AppStarted) {
+    if (state is AppStarted) {
       subscription = Connectivity()
           .onConnectivityChanged
           .listen((ConnectivityResult connectivityResult) {
